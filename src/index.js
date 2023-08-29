@@ -3,18 +3,23 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./services/store";
+
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import Home from "./routes/home.jsx";
 import Pricing from "./routes/pricing";
 import SignUp from "./routes/signUp";
-import Process1 from "./routes/process1";
-import Process2 from "./routes/process2";
-import Process3 from "./routes/process3";
-import Process4 from "./routes/process4";
-import Process5 from "./routes/process5";
 import Main from "./routes/main";
 import CheckoutForm from "./routes/checkout_form";
 import Login from "./routes/login";
+
+const Process1 = React.lazy(() => import("./routes/process1.jsx"));
+const Process2 = React.lazy(() => import("./routes/process2.jsx"));
+const Process3 = React.lazy(() => import("./routes/process3.jsx"));
+const Process4 = React.lazy(() => import("./routes/process4.jsx"));
+const Process5 = React.lazy(() => import("./routes/process5.jsx"));
+
+const isAuthenticated = localStorage.getItem("isLogined") === 1 ? true : false;
 
 const router = createBrowserRouter([
   {
@@ -51,11 +56,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/main",
-    element: <Main />,
+    element: isAuthenticated === 1 ? <Main /> : <Login />,
   },
   {
     path: "/checkout_form",
-    element: <CheckoutForm />,
+    element: isAuthenticated === 1 ? <CheckoutForm /> : <Login />,
   },
   {
     path: "/login",
@@ -66,6 +71,6 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <RouterProvider router={router}></RouterProvider>
   </Provider>
 );

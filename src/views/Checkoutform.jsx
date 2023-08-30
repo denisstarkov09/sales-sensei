@@ -8,6 +8,7 @@ const Checkoutform = () => {
   const navigate = useNavigate();
   // collect data from the user
   const [name, setCardName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   // const [email, setEmail] = useState("metaknowya@gmail.com");
   const [email, setEmail] = useState("");
   const priceId = "price_1Ni4zSIzxhFKhxAIWnTvdkNT";
@@ -19,6 +20,7 @@ const Checkoutform = () => {
   const createSubscription = async () => {
     try {
       // create a payment method
+      setIsLoading(true);
       const paymentMethod = await stripe?.createPaymentMethod({
         type: "card",
         card: elements.getElement(CardElement),
@@ -54,9 +56,11 @@ const Checkoutform = () => {
       alert("Success! Check your email for the invoice.");
       window.localStorage.setItem("client_secret", response.clientSecret);
       window.localStorage.setItem("subscription_id", response.subscriptionId);
+      setIsLoading(false);
       navigate("/main");
       // }
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
@@ -100,9 +104,9 @@ const Checkoutform = () => {
           <button
             className="pay-btn"
             onClick={createSubscription}
-            disabled={!stripe}
+            disabled={isLoading}
           >
-            Pay
+            {isLoading ? "wait some mins..." : "Pay"}
           </button>
         </div>
       </div>

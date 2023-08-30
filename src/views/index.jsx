@@ -2,11 +2,13 @@ import React from "react";
 import HomeLayout from "../layouts/home";
 import Footer from "../components/footer";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { authTokens } = useAuth();
   const goMain = () => {
-    if (Number(window.localStorage.isLogined) === 1) {
+    if (authTokens) {
       if (
         window.localStorage.client_secret &&
         window.localStorage.client_secret !== ""

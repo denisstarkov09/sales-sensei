@@ -3,6 +3,7 @@ import HomeLayout from "../layouts/home";
 import Footer from "../components/footer";
 import useWidth from "../hooks/useWidth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 const Modal = ({ isOpen, onClose, goLogin }) => {
   if (!isOpen) return null;
@@ -54,6 +55,7 @@ const Modal = ({ isOpen, onClose, goLogin }) => {
 
 const Pricing = () => {
   const w = useWidth();
+  const { authTokens } = useAuth();
   const [curr, setCurr] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -69,9 +71,7 @@ const Pricing = () => {
   const navigate = useNavigate();
 
   const goCheckForm = () => {
-    Number(window.localStorage.isLogined) === 1
-      ? navigate("/checkout_form")
-      : openModal();
+    authTokens ? navigate("/checkout_form") : openModal();
   };
 
   const goLogin = () => {

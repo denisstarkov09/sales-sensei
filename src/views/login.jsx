@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import AuthLayout from "../layouts/auth";
+import { useAuth } from "../context/auth";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  // const [signupstate, setSignupState] = useState(0);
+const Login = (props) => {
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const { setAuthTokens } = useAuth();
+
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
+
   const setEmail = (e) => {
     const { name, value } = e.target;
 
@@ -43,8 +47,8 @@ const Login = () => {
               setError("Password is not correct");
             } else {
               console.log("Login Succeed");
-              window.localStorage.setItem("isLogined", 1);
-              window.localStorage.setItem("email", inputs.email);
+              setLoggedIn(true);
+              setAuthTokens({ isLoggedIn: 1, email: inputs.email });
               if (
                 response.data[0].client_secret !== null &&
                 response.data[0].subscription_id !== null

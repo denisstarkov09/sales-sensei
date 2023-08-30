@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useWidth from "../../hooks/useWidth";
+import { useAuth } from "../../context/auth";
 
 const Item = ({ title, route }) => {
   const location = useLocation();
@@ -30,8 +31,8 @@ const Item = ({ title, route }) => {
 };
 
 const Navbar = () => {
+  const { authTokens, setAuthTokens } = useAuth();
   const w = useWidth();
-  const [isLogined, setLoginState] = useState(window.localStorage.isLogined);
   const navigate = useNavigate();
   const goUrl = (route) => {
     navigate(route);
@@ -54,7 +55,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Item title="Home" route="/" />
             <Item title="Pricing" route="/pricing" />
-            {!isLogined || Number(isLogined) === 0 ? (
+            {!authTokens ? (
               <>
                 <Item title="login" route="/login" />
                 <div
@@ -70,10 +71,9 @@ const Navbar = () => {
               <>
                 <div
                   onClick={() => {
-                    window.localStorage.setItem("isLogined", 0);
                     window.localStorage.removeItem("client_secret");
                     window.localStorage.removeItem("subscription_id");
-                    setLoginState(0);
+                    setAuthTokens();
                     navigate("/", { replace: true });
                   }}
                   className="mr-[50px] cursor-pointer"
@@ -105,10 +105,8 @@ const Navbar = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    {window.localStorage.email &&
-                      window.localStorage.email
-                        .substr(0, 1)
-                        .toLocaleUpperCase()}
+                    {authTokens.email &&
+                      authTokens.email.substr(0, 1).toLocaleUpperCase()}
                   </p>
                 </div>
               </>

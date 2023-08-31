@@ -54,8 +54,14 @@ const Checkoutform = () => {
       //   alert(confirmPayment.error.message);
       // } else {
       alert("Success! Check your email for the invoice.");
-      window.localStorage.setItem("client_secret", response.clientSecret);
-      window.localStorage.setItem("subscription_id", response.subscriptionId);
+      window.localStorage.setItem(
+        "sub_scription",
+        JSON.stringify({
+          cs: response.clientSecret,
+          ss: response.subscriptionId,
+          email: email,
+        })
+      );
       setIsLoading(false);
       navigate("/main");
       // }

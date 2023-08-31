@@ -10,8 +10,8 @@ const Home = () => {
   const goMain = () => {
     if (authTokens) {
       if (
-        window.localStorage.client_secret &&
-        window.localStorage.client_secret !== ""
+        window.localStorage.sub_scription &&
+        authTokens.email === window.localStorage.sub_scription.email
       ) {
         navigate("/main");
       } else {

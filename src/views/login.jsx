@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AuthLayout from "../layouts/auth";
 import { useAuth } from "../context/auth";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = (props) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -54,12 +54,12 @@ const Login = (props) => {
                 response.data[0].subscription_id !== null
               ) {
                 window.localStorage.setItem(
-                  "client_secret",
-                  response.data[0].client_secret
-                );
-                window.localStorage.setItem(
-                  "subscription_id",
-                  response.data[0].subscription_id
+                  "sub_scription",
+                  JSON.stringify({
+                    cs: response.data[0].client_secret,
+                    ss: response.data[0].subscription_id,
+                    email: inputs.email,
+                  })
                 );
                 navigate("/main");
               } else {
@@ -115,20 +115,20 @@ const Login = (props) => {
               <div className="d-flex justify-content-center">
                 <p>
                   Don’t have an account?{" "}
-                  <a
-                    href="/signUp"
+                  <Link
+                    to="/signUp"
                     style={{ color: "blue", fontStyle: "italic" }}
                   >
                     <u>Sign up</u>
-                  </a>
+                  </Link>
                 </p>
               </div>
               <div className="d-flex justify-content-center">
                 <p>
                   Go Home?{" "}
-                  <a href="/" style={{ color: "blue", fontStyle: "italic" }}>
+                  <Link to="/" style={{ color: "blue", fontStyle: "italic" }}>
                     <u>Home</u>
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>

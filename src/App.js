@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
+import ProtectRoute from "./ProtectRoute";
 import { AuthContext } from "./context/auth";
 
 import Home from "./routes/home.jsx";
@@ -31,7 +32,7 @@ export default function App() {
             <Route exact path="/" element={<PrivateRoute />}>
               <Route exact path="/main" element={<Main />}></Route>
             </Route>
-            <Route exact path="/" element={<PrivateRoute />}>
+            <Route exact path="/" element={<ProtectRoute />}>
               <Route
                 exact
                 path="/checkout_form"

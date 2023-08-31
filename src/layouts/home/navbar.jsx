@@ -32,11 +32,13 @@ const Item = ({ title, route }) => {
 
 const Navbar = () => {
   const { authTokens, setAuthTokens } = useAuth();
+  console.log(authTokens);
   const w = useWidth();
   const navigate = useNavigate();
   const goUrl = (route) => {
     navigate(route);
   };
+
   return (
     <div className="w-[100%] h-[100px] shrink-0 justify-between flex items-center laptop:px-[40px]">
       {w < 1000 ? (
@@ -55,7 +57,7 @@ const Navbar = () => {
           <div className="flex items-center">
             <Item title="Home" route="/" />
             <Item title="Pricing" route="/pricing" />
-            {!authTokens ? (
+            {authTokens === undefined ? (
               <>
                 <Item title="login" route="/login" />
                 <div
@@ -71,8 +73,7 @@ const Navbar = () => {
               <>
                 <div
                   onClick={() => {
-                    window.localStorage.removeItem("client_secret");
-                    window.localStorage.removeItem("subscription_id");
+                    window.localStorage.removeItem("sub_scription");
                     setAuthTokens();
                     navigate("/", { replace: true });
                   }}
